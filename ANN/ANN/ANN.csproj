@@ -41,6 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActivationFunction\IActivationFunction.cs" />
+    <Compile Include="ActivationFunction\SigmoidFunction.cs" />
+    <Compile Include="Layers\Layer.cs" />
+    <Compile Include="Neurons\Neuron.cs" />
+    <Compile Include="Neurons\NeuronConnection.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

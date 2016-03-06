@@ -8,5 +8,7 @@ namespace ANN.ActivationFunction
 {
     interface IActivationFunction
     {
+        double Calculate(double input);
+        double CalculateDerivative(double output);
     }
 }
