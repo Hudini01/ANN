@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ANN.ActivationFunction
 {
-    interface IActivationFunction
+    public interface IActivationFunction
     {
         double Calculate(double input);
         double CalculateDerivative(double output);

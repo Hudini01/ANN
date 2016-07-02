@@ -44,6 +44,7 @@
     <Compile Include="ActivationFunction\IActivationFunction.cs" />
     <Compile Include="ActivationFunction\SigmoidFunction.cs" />
     <Compile Include="Layers\Layer.cs" />
+    <Compile Include="Network\NeuralNetwork.cs" />
     <Compile Include="Neurons\Neuron.cs" />
     <Compile Include="Neurons\NeuronConnection.cs" />
     <Compile Include="Program.cs" />

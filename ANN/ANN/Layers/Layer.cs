@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ANN.Layers
 {
-    class Layer
+    public class Layer
     {
         public ArrayList neurons;
 
@@ -79,12 +79,11 @@ namespace ANN.Layers
             }
         }
 
-        public void SetOutputs(double[] correctOutputs)
+        public void CalculateError(double[] correctOutputs)
         {
             for (int i = 0; i < neurons.Count; i++)
             {
-                ((Neuron)neurons[i]).CalculateErrorValue(correctOutputs[i])
-;
+                ((Neuron)neurons[i]).CalculateErrorValue(correctOutputs[i]);
             }
         }
 
@@ -96,5 +95,12 @@ namespace ANN.Layers
             }
         }
 
+        public void BackPropagation()
+        {
+            foreach (Neuron neuron in neurons)
+            {
+                neuron.BackPropagation();
+            }
+        }
     }
 }

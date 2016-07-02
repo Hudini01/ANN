@@ -62,7 +62,7 @@ namespace ANN.Neurons
         {
             foreach(NeuronConnection connection in inputs)
             {
-                connection.weight += learningFactor + errorValue * activationFunction.CalculateDerivative(output) * connection.neuron.output;
+                connection.weight += learningFactor * errorValue * activationFunction.CalculateDerivative(output) * connection.neuron.output;
             }
 
             biasWeight += learningFactor * errorValue * activationFunction.CalculateDerivative(output) * 1.0;
@@ -73,6 +73,14 @@ namespace ANN.Neurons
             foreach(Neuron neuron in layer.neurons)
             {
                 AddInput(neuron);
+            }
+        }
+
+        public void BackPropagation()
+        {
+            foreach (NeuronConnection con in inputs)
+            {
+                con.neuron.errorValue += errorValue * con.weight;
             }
         }
     }
