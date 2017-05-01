@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2C850A02-86E3-4315-8CE9-EB3CC60D1780}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{C68CB2E9-0524-45AF-8A8E-B76AAC8E5900}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ANN</RootNamespace>
-    <AssemblyName>ANN</AssemblyName>
+    <RootNamespace>ArtificialNeuralNetwork</RootNamespace>
+    <AssemblyName>ArtificialNeuralNetwork</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -41,19 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActivationFunction\ActivationFunctionType.cs" />
-    <Compile Include="ActivationFunction\IActivationFunction.cs" />
-    <Compile Include="ActivationFunction\SigmoidFunction.cs" />
-    <Compile Include="Layers\Layer.cs" />
-    <Compile Include="Network\NetworkIO.cs" />
-    <Compile Include="Network\NeuralNetwork.cs" />
-    <Compile Include="Neurons\Neuron.cs" />
-    <Compile Include="Neurons\NeuronConnection.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

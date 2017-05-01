@@ -4,11 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ANN.ActivationFunction
-{
     public interface IActivationFunction
     {
         double Calculate(double input);
         double CalculateDerivative(double output);
     }
-}

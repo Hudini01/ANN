@@ -1,86 +1,106 @@
-﻿using ANN.ActivationFunction;
-using ANN.Layers;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ANN.Network
+public class NeuralNetwork
 {
-    class NeuralNetwork
+    private List<Layer> _layers;
+
+    public NeuralNetwork(int[] layersSize, IActivationFunction activationFunction)
     {
-        public Layer inputLayer, outputLayer;
-        private Layer[] hidenLayers;
+        _layers = new List<Layer>();
 
-        public NeuralNetwork(int inputLayerSize, int[] hidenLayersSize, int outputLayerSize, IActivationFunction activationFunction)
+        foreach(int layerSize in layersSize)
         {
-            this.inputLayer = new Layer(inputLayerSize, activationFunction);
-            this.outputLayer = new Layer(outputLayerSize, activationFunction);
+            _layers.Add(new Layer(layerSize, activationFunction));
+        }
+        for (int i = layersSize.Length - 1; i > 0; i--)
+        {
+            _layers[i].ConnectWithLayer(_layers[i - 1]);
+        }
+    }
 
-            hidenLayers = new Layer[hidenLayersSize.Length];
+    public void RandomWeight(double min, double max)
+    {
+        for (int i = 1; i < _layers.Count; i++)
+        {
+            _layers[i].RandowWeight(min, max);
+        }
+    }
 
-            for (int i = 0; i < hidenLayersSize.Length; i++)
-            {
-                hidenLayers[i] = new Layer(hidenLayersSize[i], activationFunction);
-            }
+    public double[] CalcluateOutput(double[] inputSiganl)
+    {
+        _layers[0].SetOutputs(inputSiganl);
 
-            this.outputLayer.ConnectWithLayer(hidenLayers[hidenLayersSize.Length - 1]);
-
-            for (int i = hidenLayersSize.Length - 1; i > 0; i--)
-            {
-                hidenLayers[i].ConnectWithLayer(hidenLayers[i - 1]);
-            }
-
-            this.hidenLayers[0].ConnectWithLayer(inputLayer);
+        for (int i = 1; i < _layers.Count; i++)
+        {
+            _layers[i].Calculate();
         }
 
-        public void RandomWeight(double Min, double Max)
+        return _layers[_layers.Count - 1].GetOutputs();
+    }
+
+    public void Learnig(double[] CorrectedOutputs, double[] Inputs, double learningFactor)
+    {
+        foreach(Layer layer in _layers)
         {
-            Random rand = new Random();
+            layer.ResetErrorValue();
+        }
 
-            outputLayer.RandowWeight(Min, Max, rand);
+        CalcluateOutput(Inputs);
 
-            for (int i = 0; i < hidenLayers.Length; i++)
+        _layers[_layers.Count - 1].CalculateError(CorrectedOutputs);
+        for (int i = _layers.Count - 1; i > 0; i--)
+        {
+            _layers[i].BackPropagation();
+        }
+
+        for (int i = _layers.Count - 1; i > 0; i--)
+        {
+            _layers[i].CorrectWeight(learningFactor);
+        }
+    }
+
+    public void foo2()
+    {
+        for (int i = 1; i < _layers.Count; i++)
+        {
+            foreach (List<double> l in _layers[i].GetNeuronsIntuptsWeight())
             {
-                hidenLayers[i].RandowWeight(Min, Max, rand);
+                Console.WriteLine(String.Join(" ", l.ToArray()));
             }
         }
+    }
 
-        public double[] CalcluateOutput(double[] InputSiganl)
+    public void SetNetworkNeuronsInputsWeight(List<List<List<double>>> networkNeuronsWeight)
+    {
+        for (int i = 1; i < _layers.Count && i <= networkNeuronsWeight.Count; i++)
         {
-            inputLayer.SetOutputs(InputSiganl);
-
-            for (int i = 0; i < hidenLayers.Length; i++)
-            {
-                hidenLayers[i].Calculate();
-            }
-
-            outputLayer.Calculate();
-
-            return outputLayer.GetOutputs();
+            _layers[i].SetNeuronsIntuptsWeight(networkNeuronsWeight[i - 1]);
         }
+    }
 
-        public void Learnig(double[] CorrectedOutputs, double[] Inputs, double learningFactor)
+    public List<List<List<double>>> GetNetworkNeuronsInputsWeight()
+    {
+        List<List<List<double>>> networkNeuronsWeight = new List<List<List<double>>>();
+
+        for (int i = 1; i < _layers.Count; i++)
         {
-            inputLayer.ResetErrorValue();
-            for (int i = 0; i < hidenLayers.Length; i++)
-                hidenLayers[i].ResetErrorValue();
-            outputLayer.ResetErrorValue();
-
-            CalcluateOutput(Inputs);
-
-            outputLayer.CalculateError(CorrectedOutputs);
-
-            outputLayer.BackPropagation();
-
-            for (int i = hidenLayers.Length - 1; i > 0; i--)
-                hidenLayers[i].BackPropagation();
-
-            outputLayer.CorrectWeight(learningFactor);
-
-            for (int i = 0; i < hidenLayers.Length; i++)
-                hidenLayers[i].CorrectWeight(learningFactor);
+            networkNeuronsWeight.Add(_layers[i].GetNeuronsIntuptsWeight());
         }
+        return networkNeuronsWeight;
+    }
+
+    public List<int> GetNetworkLayersSize()
+    {
+        List<int> layersSize = new List<int>();
+        foreach (Layer layer in _layers)
+        {
+            layersSize.Add(layer.GetLayersSize());
+        }
+        return layersSize;
     }
 }

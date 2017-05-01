@@ -4,8 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ANN.ActivationFunction
-{
     class SigmoidFunction : IActivationFunction
     {
         private double Beta;
@@ -30,4 +28,3 @@ namespace ANN.ActivationFunction
             return Beta * output * (1.0 - output);
         }
     }
-}

@@ -1,13 +1,10 @@
-﻿using ANN.ActivationFunction;
-using ANN.Network;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ANN
-{
     class Program
     {
         static void Main(string[] args)
@@ -42,18 +39,34 @@ namespace ANN
                 new double [] {0,0,1}
             };
 
-            NeuralNetwork nn = new NeuralNetwork(2, new int[] { 2 }, 1, new SigmoidFunction(5.0));
+            NeuralNetwork nn2 = new NeuralNetwork(new int[] {2, 2 ,1}, new SigmoidFunction(5.0));
+            nn2.RandomWeight(-0.1, 0.1);
+
+            nn2.foo2();
 
             Random r = new Random();
-
-            nn.RandomWeight(-0.1, 0.1);
 
             for (int i = 0; i < 10000; i++)
             {
                 int abc = r.Next(0, 4);
-                nn.Learnig(outputs[abc], inputs[abc], 0.1);
+                nn2.Learnig(outputs[abc], inputs[abc], 0.1);
             }
 
+            nn2.foo2();
+
+            for (int i = 0; i < 4; i++)
+            {
+                double[] ans = nn2.CalcluateOutput(inputs[i]);
+                Console.WriteLine(inputs[i][0] + " " + inputs[i][1] + " " + ans[0]);
+
+                //Console.WriteLine(inputs[i][0] + " " + inputs[i][1] + " " + inputs[i][2] + " " + inputs[i][3] + " " + inputs[i][4] + " " + ans[0] + " " + ans[1] + " " + ans[2]);
+            }
+            
+
+            string fileName = @"C:\TEST\test.bin";
+            NetworkIO.SaveNetwork(fileName, nn2);
+            NeuralNetwork nn = NetworkIO.LoadNetwork(fileName);
+            nn.foo2();
             for (int i = 0; i < 4; i++)
             {
                 double[] ans = nn.CalcluateOutput(inputs[i]);
@@ -65,4 +78,3 @@ namespace ANN
             Console.ReadKey();
         }
     }
-}
